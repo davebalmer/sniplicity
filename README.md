@@ -16,9 +16,8 @@ Use
 Use a source HTML directory to build compiled HTML files
 in an output directory.
 
-```bash
-	// node snipmake.js -i source_path -o output_path
-	node snipmake.js -i source -o www
+```
+node snipmake.js -i source_dir -o output_dir
 ```
 
 - Source files must be `.html` or `.htm` or `.txt`
@@ -31,21 +30,29 @@ All commands are single-line HTML comments. This manes you can add them while st
 
 Set a variable to `true`:
 
+```html
 	<!-- define x -->
+```
 
 Set a variable to a string value:
 
+```html
 	<!-- define author Bill Watson -->
+```
 	
 Using variable values:
 
+```html
 	Contact <a href="mailto:--email--">--name--<.a>
+```
 
 Include a section only if a variable is set:
 
+```html
 	<!-- ifdef x -->
 	This will be on your page
 	<!-- endif -->
+```
 
 Include a section only if a variable is not set:
 
