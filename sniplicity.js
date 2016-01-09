@@ -37,6 +37,7 @@ function fixdir(d) {
 var allfiles = fs.readdirSync(source);
 var files = [];
 var snippets = {};
+var defglob = {};
 
 function verbose() {
 	if (verbose_cli)
@@ -68,6 +69,7 @@ function build() {
 	}
 
 	snippets = {};
+	defglob = {};
 
 	verbose("Finding all " + "snippets".green + "...");
 
@@ -167,7 +169,7 @@ function build() {
 					if (p[0] == "set")
 						filelist[i].def[p[1]] = v || true;
 					else
-						defglob[[p[1]] = v || true;
+						defglob[p[1]] = v || true;
 				}
 				else if (p[0] == "if") {
 					if (p[1].substring(0, 1) == "!") {
@@ -245,10 +247,14 @@ function replacements(str, data) {
 	for (var i in data) {
 		var reg = new RegExp(varstart + i + varend, "g");
 		
-		if (typeof data[i] === "string")
+		var rep = "";
+		if (typeof data[i] !== "undefined")
+			rep = data[i] || "";
+		else if (typeof defglob[i] !== "undefined")
+			rep = defglob[i] || "";
+
+		if (rep)
 			s = s.replace(reg, data[i]);
-		else
-			s = s.replace(reg, "");
 	}
 
 	// clean up any undefined variables
