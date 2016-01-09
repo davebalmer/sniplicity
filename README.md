@@ -1,4 +1,4 @@
-![Logo](snipmake.svg)
+![Logo](snipmake.png)
 
 snipmake
 ========
