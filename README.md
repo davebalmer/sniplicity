@@ -28,102 +28,121 @@ Syntax
 
 All commands are single-line HTML comments. This manes you can add them while still retaining normal HTML editing and viewing for quite a while before having to use the build process.
 
-Set a variable to `true`:
+### Set a variable to `true`
 
 ```html
-	<!-- define x -->
+<!-- define x -->
 ```
 
-Set a variable to a string value:
+### Set a variable to a string value
 
 ```html
-	<!-- define author Bill Watson -->
+<!-- define author Bill Watson -->
 ```
 	
-Using variable values:
+### Using variable values
 
 ```html
-	Contact <a href="mailto:--email--">--name--<.a>
+Contact <a href="mailto:--email--">--name--<.a>
 ```
 
-Include a section only if a variable is set:
+### Include a section only if a variable is set
 
 ```html
-	<!-- ifdef x -->
-	This will be on your page
-	<!-- endif -->
+<!-- ifdef x -->
+This will be on your page
+<!-- endif -->
 ```
 
-Include a section only if a variable is not set:
+### Include a section only if a variable is not set
 
-	<!-- ifndef x -->
-	This will not be on your page
-	<!-- endif -->
+```html
+<!-- ifndef x -->
+This will not be on your page
+<!-- endif -->
+```
 
-Several conditionals:
+### Several conditionals
 
-	<!-- ifdef a -->
-	Hello, A!
-	<!-- endif -->
-	<!-- ifdef b -->
-	Hello, B!
-	<!-- endif -->
-	<!-- ifdef c -->
-	Hello, C!
-	<!-- endif -->
+```html
+<!-- ifdef a -->
+Hello, A!
+<!-- endif -->
+<!-- ifdef b -->
+Hello, B!
+<!-- endif -->
+<!-- ifdef c -->
+Hello, C!
+<!-- endif -->
+```
 
-Can be simplified to:
+### Can be simplified to
 		
-	<!-- ifdef a -->
-	Hello, A!
-	<!-- ifdef b -->
-	Hello, B!
-	<!-- ifdef c -->
-	Hello, C!
-	<!-- endif -->
+```html
+<!-- ifdef a -->
+Hello, A!
+<!-- ifdef b -->
+Hello, B!
+<!-- ifdef c -->
+Hello, C!
+<!-- endif -->
+```
 	
-Define a snippet which may **also** be used elsewhere:
+### Define a snippet which may **also** be used elsewhere
 
-	<!-- begin copyright -->
-	Copyright &copy; 2016 No one anywhere
-	<!-- end copyright -->
+```html
+<!-- begin copyright -->
+Copyright &copy; 2016 No one anywhere
+<!-- end copyright -->
+```
 	
-Use that snippet somewhere else:
+### Use that snippet somewhere else
 
-	<!-- insert copyright -->
+```html
+<!-- insert copyright -->
+```
 
-Putting it all together:
+### Putting it all together
 	
-	Page 1.
+Page 1.
 
-	<!-- begin contact -->
-	--name--
-	<a href="tel:+01--phone--">--phone--</a>
-	<a href="--email-->"--email--</a>
-	<!-- end contact -->
+```html
+<!-- begin contact -->
+--name--
+<a href="tel:+01--phone--">--phone--</a>
+<a href="--email-->"--email--</a>
+<!-- end contact -->
+```
 
-	Page 2.
+Page 2.
 
+```html
+<!-- define name Bob Smith -->
+<!-- define phone 2125551234 -->
+<!-- define email bob!bobobobo.com -->
+
+<!-- insert contact -->
+```
+
+### Simplify further with some "global" variables:
+
+
+Define in a file like `_global.html`:
+
+```html
+<!-- begin globals -->
 	<!-- define name Bob Smith -->
+	<!-- define email bob@bobobobo.com -->
 	<!-- define phone 2125551234 -->
-	<!-- define email bob!bobobobo.com -->
+<!-- end globals -->
+```
 
-	<!-- insert contact -->
+Use in other files:
 
-Simplify further with some "global" variables:
-
-	Define in a file like `_global.html`:
-
-	<!-- begin globals -->
-		<!-- define name Bob Smith -->
-		<!-- define email bob@bobobobo.com -->
-		<!-- define phone 2125551234 -->
-	<!-- end globals -->
-
-	Use in other files:
-	
+```html
 	<!-- insert globals -->
 	<!-- insert contact -->
+```
 
 Rules
 -----
