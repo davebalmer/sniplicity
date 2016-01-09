@@ -1,37 +1,76 @@
+# snipmake
 
-<!-- set x -->
-x = --x--<br>
+## New syntax playground
 
-<!-- set x Hello World! -->
-x = --x--<br>
+### Page variables
 
-<!-- clear x -->
-x = --x--<br>
+Really these are more like constants, and you use `set` to define them.
+Their values are available only inside the file where you `set` them.
 
-<!-- if x -->
-x is truthy!<br>
+```html
+<!-- set test -->
+<!-- set message Hello World! -->
+```
+
+### Default variables
+
+You can set global default values for variables with `default`. If
+you use `set` with the same variable name in a given file, the default
+value will be overwritten inside that file (and return to its default
+value for other files).
+
+```html
+<!-- default development -->
+<!-- default title My Website -->
+```
+
+### Conditional builds
+
+You can test a variable to decide if you want to include or exclude
+a section. These will work inside snippets as well.
+
+```html
+<!-- if test -->
+test is truthy!<br>
 <!-- endif -->
 
-<!-- if !x -->
-x is falsy!<br>
+<!-- if !test -->
+test is falsy!<br>
 <!-- endif -->
+```
 
+### Snippets
+
+Snippets work like commone clipboard, using `cut`, `copy` and `paste` to
+define and use snippets. Both `cut` and `copy` make snippets. The
+difference is `copy` will copy the snippet while, you guessed it, 
+`cut` will cut it out of the current file. When in doubt, use `copy`.
+
+```html
 <!-- copy nav -->
 <p>
 	Nav: A, B, C<br>
 	(will show up twice because we copied it)
 </p>
-<!-- end nav -->
+<!-- end -->
 
 <!-- cut footer -->
 <p>
 	Copyright &copy; 2016 A, B, C<br>
 	(only shows up once because we cut it)
 </p>
-<!-- end footer -->
+<!-- end -->
 
 <!-- paste footer -->
 <!-- paste nav -->
+```
 
-<!-- global title This is my website -->
+### Insert other content files
+
+Right now, **snipmake** copies the file contents verbatum. Later there may
+be filters (eg. markdown, jade).
+
+```html
+<!-- paste from metatags.html -->
+```
 
