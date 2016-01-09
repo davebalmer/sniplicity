@@ -7,8 +7,8 @@ var path = require("path");
 var cli = require("commander");
 var colors = require("colors");
 
-console.log("\nsnipmake".green.bold + ".js".blue);
-console.log("http://github.com/davebalmer/snipmate\n".gray.underline);
+console.log("\nsniplicity".green.bold + ".js".blue);
+console.log("http://github.com/davebalmer/sniplicity\n".gray.underline);
 
 cli
 	.version('0.1.0')
@@ -44,7 +44,7 @@ function verbose() {
 }
 
 function build() {
-	verbose("Loading " + "snipmake".green + " files...");
+	verbose("Loading " + "sniplicity".green + " files...");
 	
 	getfilelist();
 
@@ -196,7 +196,7 @@ function build() {
 }
 
 if (watch)
-	console.log("snipmake".green.bold + ".js".blue + " is watching files in " + source);
+	console.log("sniplicity".green.bold + ".js".blue + " is watching files in " + source);
 
 build();
 
