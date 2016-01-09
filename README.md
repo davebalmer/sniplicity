@@ -16,8 +16,10 @@ Use
 Use a source HTML directory to build compiled HTML files
 in an output directory.
 
+~~~javascript
 	// node snipmake.js -i source_path -o output_path
 	node snipmake.js -i source -o www
+~~~
 
 - Source files must be `.html` or `.htm` or `.txt`
 - Any changes you make manually to the output directory for source files will be overwritten
