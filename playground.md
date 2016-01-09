@@ -23,6 +23,7 @@ You can declare them anywhere in your project and they are available from any fi
 	(only shows up once because we cut it)
 </p>
 <!-- end -->
+```
 
 Both `cut` and `copy` make snippets. The
 difference is `copy` will copy the snippet while, you guessed it, 
