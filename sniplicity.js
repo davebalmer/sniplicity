@@ -12,7 +12,7 @@ console.log("http://github.com/davebalmer/sniplicity\n".gray.underline);
 
 cli
 	.version('0.1.0')
-	.option('-i --in [dir]', 'Source directory')
+	.option('-i, --in [dir]', 'Source directory')
 	.option('-o, --out [dir]', 'Output directory for compiled files')
 	.option('-w, --watch', 'Keep watching the input directory')
 	.option('-v, --verbose', 'Extra console messages')
@@ -76,12 +76,15 @@ function build() {
 		var d = filelist[i].data;
 		var blockname = ""
 		var block = [];
+		var cutting = false;
 		
 		for (var j = 0; j < d.length; j++) {
 			var p = parse(d[j]);
 
 			if (p !== null) {
-				if (p[0] == "begin") {
+				if (p[0] == "copy" || p[0] == "cut") {
+					cutting = (p[0] == "cut");
+						
 					blockname = p[1];
 					block = [];
 				}
@@ -91,14 +94,15 @@ function build() {
 
 					block = [];
 					blockname = "";
+					cutting = false;
 				}
 				else {
-					if (blockname)
+					if (blockname && !cutting)
 						block.push(d[j]);				
 				}
 			}
 			else {
-				if (blockname)
+				if (blockname && !cutting)
 					block.push(d[j]);
 			}
 		}
@@ -115,7 +119,7 @@ function build() {
 			var p = parse(d[j]);
 
 			if (p !== null) {
-				if (p[0] == "insert") {
+				if (p[0] == "paste") {
 					if (typeof snippets[p[1]] !== "undefined") {
 						var x = snippets[p[1]];
 
@@ -149,11 +153,10 @@ function build() {
 		for (var j = 0; j < d.length; j++) {
 			var p = parse(d[j]);
 			if (p !== null) {
-				if (p[0] == "define") {
-					// take care of defines here
+				if (p[0] == "set" || "global") {
+					// take care of variables here
 					var v = "";
 					if (p.length > 2) {
-						// variable defined here
 						for (var z = 2; z < p.length; z++) {
 							if (z != 2)
 								v += " ";
@@ -161,19 +164,28 @@ function build() {
 							v += p[z];
 						}
 					}
-					filelist[i].def[p[1]] = v || true;
-				}
-				else if (p[0] == "ifdef") {
-					if (filelist[i].def[p[1]] !== "undefined" && filelist[i].def[p[1]])
-						write = true;
+					if (p[0] == "set")
+						filelist[i].def[p[1]] = v || true;
 					else
-						write = false;
+						defglob[[p[1]] = v || true;
 				}
-				if (p[0] == "ifndef") {
-					if (filelist[i].def[p[1]] === "undefined" || !filelist[i].def[p[1]])
-						write = true;
-					else
-						write = false;
+				else if (p[0] == "if") {
+					if (p[1].substring(0, 1) == "!") {
+						console.log(p[1]);
+						p[1] = p[1].substring(1, p[1].length);
+						console.log(p[1]);
+
+						if (filelist[i].def[p[1]] === "undefined" || !filelist[i].def[p[1]])
+							write = true;
+						else
+							write = false;
+					}
+					else {
+						if (filelist[i].def[p[1]] !== "undefined" && filelist[i].def[p[1]])
+							write = true;
+						else
+							write = false;
+					}
 				}
 				else if (p[0] == "endif") {
 					write = true;
