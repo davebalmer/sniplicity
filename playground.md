@@ -46,7 +46,7 @@ Their values are available only inside the file where you `set` them.
 <!-- set message Hello World! -->
 ```
 
-## Default variables
+## Global default variables
 
 You can set global default values for variables with `default`.
 If you use `set` with the same variable name in a given file, the default value
