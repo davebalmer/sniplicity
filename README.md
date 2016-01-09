@@ -1,192 +1,125 @@
-![Logo](snipmake.png)
+![Logo](sniplicity.png)
 
-snipmake
-========
+# sniplicity
 
 Simple comment-based HTML build system that lets you reuse code snippets with simple variables and conditional inclusion. Great for building static websites with less hassle.
 
-You can include special keywords embedded in HTML comments to:
+- static page builder
+- all commands are embedded in HTML comments
+- re-use snippets of HTML throughout your project
+- use variables to replace values and control your build
+- include other files
 
-- Select and use snippets of HTML across files
-- Define and insert variables
-- Include or omit sections of HTML based on variable values
-- Watch for changes to source directory to auto-compile as you save
+## Commands
 
-Use
----
-
-Use a source HTML directory to build compiled HTML files
-in an output directory.
-
-```
-node snipmake.js -i source_dir -o output_dir
-```
-
-- Source files must be `.html` or `.htm` or `.txt`
-- Any changes you make manually to the output directory for source files will be overwritten
-
-Syntax
-------
-
-All commands are single-line HTML comments. This manes you can add them while still retaining normal HTML editing and viewing for quite a while before having to use the build process.
-
-### Set a variable to `true`
+All **sniplicity** commands are embedded in HTML comments, so they will not intefere with your favorite editor. Here are some examples:
 
 ```html
-<!-- define x -->
+<!-- define test -->
+<!-- define title Hello World -->
+
+<!-- if test -->
+	<h1>--title--</h1>
+<!-- endif -->
+
+<!-- cut footer -->
+<footer>
+	Copyright &copy; 2016
+</footer>
+<!-- end footer -->
+
+<!-- paste footer -->
+<!-- paste from disclaimer.html -->
 ```
 
-### Set a variable to a string value
+## Marking snippets with `cut` and `copy`
+
+Snippets work like a text editor clipboard. Use `cut`, `copy` and `paste` to define and use snippets. You may cut or copy them anywhere in your project and they can be pasted anywhere in any file (even the one they were defined in).
 
 ```html
-<!-- define author Bill Watson -->
+<!-- copy nav -->
+<p>
+	Nav: A, B, C<br>
+	(will show up twice because we copied it)
+</p>
+<!-- end -->
+
+<!-- cut footer -->
+<p>
+	Copyright &copy; 2016 A, B, C<br>
+	(only shows up once because we cut it)
+</p>
+<!-- end -->
 ```
-	
-### Using variable values
+
+Both `cut` and `copy` make snippets. The
+difference is `copy` will copy the snippet while, you guessed it, 
+`cut` will cut it out of the current file. When in doubt, use `copy`.
+
+## Pasting snippets with `paste`
+
+To use any snippet, just `paste` it by name in any file in your project.
 
 ```html
-Contact <a href="mailto:--email--">--name--<.a>
+<!-- paste footer -->
+<!-- paste nav -->
 ```
 
-### Include a section only if a variable is set
+## Assigning variables with `set`
+
+These are more like constants, and you use `set` to define them. Their values are available only inside the file where you `set` them, and the last declaration in a file will have the value used for replacement.
 
 ```html
-<!-- ifdef x -->
-This will be on your page
+<!-- set test -->
+<!-- set message Hello World! -->
+```
+
+## Using variables with `--variable_name--` marks
+
+With any variable (or default variable), you may include the value by using a simple mark anywhere in your file with the name of the variable surrounded by two dashes.
+
+```html
+<!-- set title Hello World! -->
+<title>My title is --title--</title>
+```html
+
+## Make global default variables with `global`
+
+You may set global default values for variables with `default`. If you use `set` with the same variable name in a given file, the default value will be overwritten inside that file and return to its default value for other files.
+
+```html
+<!-- default development -->
+<!-- default title My Website -->
+```
+
+You may also use these defaults as a form of global variable which you can use anywhere in your project.
+
+## Make conditional builds using `if` and `endif`
+
+You can test a variable to decide if you want to include or exclude
+a section. These will work inside snippets as well.
+
+```html
+<!-- if test -->
+test is truthy!<br>
+<!-- endif -->
+
+<!-- if !test -->
+test is falsy!<br>
 <!-- endif -->
 ```
 
-### Include a section only if a variable is not set
+## Insert other content files using `paste from`
+
+Right now, **sniplicity** copies the file contents verbatum. Later there may
+be filters (eg. markdown, jade).
 
 ```html
-<!-- ifndef x -->
-This will not be on your page
-<!-- endif -->
+<!-- paste from metatags.html -->
 ```
 
-### Several conditionals
 
-```html
-<!-- ifdef a -->
-Hello, A!
-<!-- endif -->
-<!-- ifdef b -->
-Hello, B!
-<!-- endif -->
-<!-- ifdef c -->
-Hello, C!
-<!-- endif -->
-```
-
-### Can be simplified to
-		
-```html
-<!-- ifdef a -->
-Hello, A!
-<!-- ifdef b -->
-Hello, B!
-<!-- ifdef c -->
-Hello, C!
-<!-- endif -->
-```
-	
-### Define a snippet which may **also** be used elsewhere
-
-```html
-<!-- begin copyright -->
-Copyright &copy; 2016 No one anywhere
-<!-- end copyright -->
-```
-	
-### Use that snippet somewhere else
-
-```html
-<!-- insert copyright -->
-```
-
-### Putting it all together
-	
-Page 1.
-
-```html
-<!-- begin contact -->
---name--
-<a href="tel:+01--phone--">--phone--</a>
-<a href="--email-->"--email--</a>
-<!-- end contact -->
-```
-
-Page 2.
-
-```html
-<!-- define name Bob Smith -->
-<!-- define phone 2125551234 -->
-<!-- define email bob!bobobobo.com -->
-
-<!-- insert contact -->
-```
-
-### Simplify further with some "global" variables:
-
-
-Define in a file like `_global.html`:
-
-```html
-<!-- begin globals -->
-	<!-- define name Bob Smith -->
-	<!-- define email bob@bobobobo.com -->
-	<!-- define phone 2125551234 -->
-<!-- end globals -->
-```
-
-Use in other files:
-
-```html
-<!-- insert globals -->
-<!-- insert contact -->
-```
-
-Rules
------
-
-Snippets are global for all pages, variables are local to each page.
-
-- variables set with `define` are only used on that page
-- you may make snippets with `begin` and `end` on any page
-- you may `insert` any defined snippet anywhere on any page
-
-When in doubt, don't re-define things. In case of duplicates, the lat definition wins. So:
-
-- if you `define` a variable more than once, the last definition will always be used
-- if you `begin` and `end` a snippet with the same name more than once, the last definition
-	in order of files read will be used (READ: this may be seemingly random)
-
-Undefined things don't get compiled.
-
-- any snippets referenced that aren't defined become empty space in the compiled files
-- any variables that aren't defined become nothing in compiled files
-
-Names must be alphanumeric characters for snippets and variables:
-
-- Good: name, address, work_phone, home-phone, email2
-- Bad: $name, super!, last name, #tagged
-
-Names for `snippets` and `variables` are Case Sensitive:
-
-- pick a standard and stick with it
-- when in doubt, keep them to all lower case
-
-Workflow Advice
----------------
-
-1. Start by making a typical page from your site as you would by hand
-2. Then decide snippets which can be shared elsewhere and denote them with `begin` and `end`
-3. Build additional pages, always looking for common snippets which can be `insert`ed
-4. Look for things which you might want to change easily later and `define` them as variables
-5. Look for common variables and put them in a snippet which is shared across pages
-
-License
--------
+## License
 
 Copyright (C) 2016 Dave Balmer, Jr. All Rights Reserved.
 MIT OSS License

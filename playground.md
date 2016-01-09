@@ -1,6 +1,6 @@
-![Logo](snipmake.png)
+![Logo](sniplicity.png)
 
-# snipmake
+# sniplicity
 
 Playing with a new syntax, so far I like it.
 
@@ -78,7 +78,7 @@ test is falsy!<br>
 
 ## Insert other content files
 
-Right now, **snipmake** copies the file contents verbatum. Later there may
+Right now, **sniplicity** copies the file contents verbatum. Later there may
 be filters (eg. markdown, jade).
 
 ```html
