@@ -22,5 +22,9 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/davebalmer/snipmake/issues"
+  },
+  "dependencies": {
+    "colors": "^1.1.2",
+    "commander": "^2.9.0"
   }
 }
