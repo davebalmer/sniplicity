@@ -92,20 +92,6 @@ function build() {
 					block = [];
 					blockname = "";
 				}
-				else if (p[0] == "define") {
-					// take care of defines here
-					var v = "";
-					if (p.length > 2) {
-						// variable defined here
-						for (var z = 2; z < p.length; z++) {
-							if (z != 2)
-								v += " ";
-							
-							v += p[z];
-						}
-					}
-					filelist[i].def[p[1]] = v || true;
-				}
 				else {
 					if (blockname)
 						block.push(d[j]);				
@@ -163,7 +149,21 @@ function build() {
 		for (var j = 0; j < d.length; j++) {
 			var p = parse(d[j]);
 			if (p !== null) {
-				if (p[0] == "ifdef") {
+				if (p[0] == "define") {
+					// take care of defines here
+					var v = "";
+					if (p.length > 2) {
+						// variable defined here
+						for (var z = 2; z < p.length; z++) {
+							if (z != 2)
+								v += " ";
+							
+							v += p[z];
+						}
+					}
+					filelist[i].def[p[1]] = v || true;
+				}
+				else if (p[0] == "ifdef") {
 					if (filelist[i].def[p[1]] !== "undefined" && filelist[i].def[p[1]])
 						write = true;
 					else
