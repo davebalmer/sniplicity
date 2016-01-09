@@ -140,8 +140,8 @@ Define in a file like `_global.html`:
 Use in other files:
 
 ```html
-	<!-- insert globals -->
-	<!-- insert contact -->
+<!-- insert globals -->
+<!-- insert contact -->
 ```
 
 Rules
