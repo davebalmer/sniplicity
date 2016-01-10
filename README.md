@@ -14,8 +14,16 @@ Simple comment-based static HTML build system that lets you reuse code snippets 
 
 ### From NPM
 
+Globally
+
 ```sh
-npm install -g sniplicity
+sudo npm install -g sniplicity
+```
+
+or locally
+
+```sh
+npm install -s sniplicity
 ```
 
 ### From GitHub
