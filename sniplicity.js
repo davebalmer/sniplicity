@@ -41,6 +41,14 @@ var verbose_cli = cli.verbose || false;
 var source = "./in/";
 var output = "./out/";
 
+exports.build = function(i, o, w) {
+	source = fixdir(i) || "./";
+	output = fixdir(o) || "./out/";
+	watch = w || false;
+	
+	start();
+}
+
 function fixdir(d) {
 	if (d && typeof d === "string" && d.substring(d.length - 1) !== "/")
 		d += "/";
@@ -58,6 +66,21 @@ function verbose() {
 	if (verbose_cli)
 		console.log.apply(this, arguments);
 }
+
+function start() {
+	if (watch)
+		console.log("sniplicity".green.bold + ".js".blue + " is watching files in " + source);
+
+	build();
+
+	if (watch) {
+		fs.watch(source, function (event, filename) {
+			build();
+		});
+	}
+}
+
+start();
 
 function build() {
 	verbose("Loading " + "sniplicity".green + " files...");
@@ -211,18 +234,6 @@ function build() {
 
 	console.log("Made files: ".green.bold + source.underline + " -> ".blue + output.underline);
 }
-
-if (watch)
-	console.log("sniplicity".green.bold + ".js".blue + " is watching files in " + source);
-
-build();
-
-if (watch) {
-	fs.watch(source, function (event, filename) {
-		build();
-	});
-}
-
 
 function isfalse(o, k) {
 	if (typeof o[k] === "undefined")
