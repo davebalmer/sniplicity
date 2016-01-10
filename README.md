@@ -50,8 +50,6 @@ In the future, **sniplicity** should also accept single files to process to make
 | --verbose | -v | Increase the **sniplicity** inner-monologue. |
 | --help | -h | Help! |
 
-![Logo](sniplicity.png)
-
 # Commands
 
 All **sniplicity** commands are embedded in HTML comments, so they will not intefere with your favorite editor. Here are some examples:
