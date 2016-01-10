@@ -1,6 +1,6 @@
 {
   "name": "sniplicity",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Simple comment-based static HTML build system that lets you reuse code snippets with simple variables and conditional inclusion.",
   "main": "sniplicity.js",
   "bin": "./sniplicity.js",

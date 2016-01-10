@@ -1,3 +1,5 @@
+#!/usr/local/bin/node
+
 // configure variable start/end here for now
 var varstart = "\\-\\-";
 var varend = "\\-\\-";
@@ -13,19 +15,19 @@ cool("  ___ ____  _ ____ ", "| | _  ____ _ _| |_ _   _ ");
 cool(" /___)  _ \\| |  _ \\", "| || |/ ___) (_   _) | | |");
 cool("|___ | | | | | |_| ", "| || ( (___| | | |_| |_| |");
 cool("(___/|_| |_|_|  __/", " \\_)_|\\____)_|  \\__)\\__  |");
-cool("             |_|   ", "                   (____/ ");
+cool("             |_|   ", "                   (____/ 0.1.1");
 function cool(l, r) {
 	console.log(l.green + r.cyan)
 }
 
-console.log("   " + "http://github.com/davebalmer/sniplicity\n".gray.underline);
+console.log("  " + "http://github.com/davebalmer/sniplicity\n".gray.underline);
 
 cli
 	.version('0.1.0')
-	.option('-i, --in [dir]', 'Source directory')
-	.option('-o, --out [dir]', 'Output directory for compiled files')
-	.option('-w, --watch', 'Keep watching the input directory')
-	.option('-v, --verbose', 'Extra console messages')
+	.option('-i, --in [dir]', 'source directory')
+	.option('-o, --out [dir]', 'output directory for compiled files')
+	.option('-w, --watch', 'keep watching the input directory')
+	.option('-v, --verbose', 'extra console messages')
 	.parse(process.argv);
 
 var filelist = [];
