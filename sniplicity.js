@@ -130,6 +130,9 @@ function build() {
 					if (fd == null) {
 						warning("Unable to " + "include ".cyan + p[1].cyan.underline, filelist[i].filename, j);
 					}
+					else {
+						d.splice.apply(d, [j, 1].concat(fd));
+					}
 				}
 				if (p[0] == "copy" || p[0] == "cut") {
 					cutting = (p[0] == "cut");
