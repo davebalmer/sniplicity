@@ -160,7 +160,7 @@ function build() {
 		}
 	}
 
-	verbose("Adding " + "snippet".green + "goodness...");
+	verbose("Adding " + "snippet".green + " goodness...");
 	
 	// insert snippets
 	for (var i = 0; i < filelist.length; i++) {
@@ -179,7 +179,7 @@ function build() {
 							newfile.push(x[l]);
 					}
 					else {
-						warning("Unable to " + "paste ".cyan + p[1].cyan.underline + " because snippet doesn't exist", filelist[i].filename, j + 1);
+						warning("Unable to " + "insert ".green + p[1].cyan.underline + " because snippet doesn't exist", filelist[i].filename, j + 1);
 					}
 				}
 				else {
@@ -330,22 +330,26 @@ function replacements(str, data) {
 
 function getfileasarray(f) {
 	var data = "";
+	
 	try {
-		if (fs.accessSynch(f, fs.R_OK))
-			data = fs.readFileSync(f, 'utf8') || "";
+//		verbose("trying file", f.cyan.underline);
+		data = fs.readFileSync(f, 'utf8') || "";
 	}
 	catch(e) {
+		verbose("Can't find file", f.cyan.underline, process.cwd());
 		try {
 			f = source + f;
-			if (fs.accessSynch(f, fs.R_OK))
-				data = fs.readFileSync(f, 'utf8') || "";
+
+//			verbose("trying file", f.cyan.underline);
+			data = fs.readFileSync(f, 'utf8') || "";
 		}
 		catch(e) {
+			verbose("Can't find file", f.cyan.underline, process.cwd());
 			return null;
 		}
 	}
 	
-	verbose("paste".blue + " from " + f);
+	verbose("include ".green + f.cyan.underline);
 	
 	return data.split("\n") || [];
 }		
