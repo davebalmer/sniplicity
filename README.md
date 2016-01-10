@@ -2,7 +2,7 @@
 
 # sniplicity
 
-Simple comment-based HTML build system that lets you reuse code snippets with simple variables and conditional inclusion. Great for building static websites with less hassle.
+Simple comment-based static HTML build system that lets you reuse code snippets with simple variables and conditional inclusion. Great for building static websites with less hassle.
 
 - static page builder
 - all commands are embedded in HTML comments

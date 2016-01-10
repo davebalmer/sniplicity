@@ -1,14 +1,14 @@
 {
-  "name": "snipmake",
+  "name": "sniplicity",
   "version": "0.1.0",
-  "description": "Simple comment-based HTML build system that lets you reuse code snippets with simple variables and conditional inclusion.",
-  "main": "snipmate.js",
+  "description": "Simple comment-based static HTML build system that lets you reuse code snippets with simple variables and conditional inclusion.",
+  "main": "sniplicity",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/davebalmer/snipmake.git"
+    "url": "https://github.com/davebalmer/sniplicity.git"
   },
   "keywords": [
     "html",
@@ -21,7 +21,7 @@
   "author": "Dave Balmer",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/davebalmer/snipmake/issues"
+    "url": "https://github.com/davebalmer/sniplicity/issues"
   },
   "dependencies": {
     "colors": "^1.1.2",
