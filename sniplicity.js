@@ -26,6 +26,9 @@ var output = fixdir(cli.out) || "./out/";
 var watch = cli.watch || false;
 var verbose_cli = cli.verbose || false;
 
+var source = "./in/";
+var output = "./out/";
+
 function fixdir(d) {
 	if (d && typeof d === "string" && d.substring(d.length - 1) !== "/")
 		d += "/";
@@ -84,6 +87,13 @@ function build() {
 			var p = parse(d[j]);
 
 			if (p !== null) {
+				if (p[0] == "include") {
+					// omg include a file...!
+					var fd = getfileasarray(p[1]);
+					if (fd == null) {
+						warning("Unable to " + "include ".cyan + p[1].cyan.underline, filelist[i].filename, j);
+					}
+				}
 				if (p[0] == "copy" || p[0] == "cut") {
 					cutting = (p[0] == "cut");
 						
@@ -98,6 +108,9 @@ function build() {
 					blockname = "";
 					cutting = false;
 				}
+				else if (p[0] == "global") {
+					defglob[p[1]] = parsevalue(p) || true;
+				}
 				else {
 					if (blockname && !cutting)
 						block.push(d[j]);				
@@ -111,6 +124,8 @@ function build() {
 	}
 
 	verbose("Adding " + "snippet".green + "goodness...");
+	
+	console.log(defglob);
 
 	// insert snippets
 	for (var i = 0; i < filelist.length; i++) {
@@ -129,7 +144,7 @@ function build() {
 							newfile.push(x[l]);
 					}
 					else {
-						console.log("Unmatched snippet name: " + p[1] + "found in " + filelist[i].filename + ":" + (j + 1));
+						warning("Unable to " + "paste ".cyan + p[1].cyan.underline + " because snippet doesn't exist", filelist[i].filename, j + 1);
 					}
 				}
 				else {
@@ -155,38 +170,16 @@ function build() {
 		for (var j = 0; j < d.length; j++) {
 			var p = parse(d[j]);
 			if (p !== null) {
-				if (p[0] == "set" || "global") {
-					// take care of variables here
-					var v = "";
-					if (p.length > 2) {
-						for (var z = 2; z < p.length; z++) {
-							if (z != 2)
-								v += " ";
-							
-							v += p[z];
-						}
-					}
-					if (p[0] == "set")
-						filelist[i].def[p[1]] = v || true;
-					else
-						defglob[p[1]] = v || true;
+				if (p[0] == "set") {
+					filelist[i].def[p[1]] = parsevalue(p) || true;
 				}
 				else if (p[0] == "if") {
 					if (p[1].substring(0, 1) == "!") {
-						console.log(p[1]);
 						p[1] = p[1].substring(1, p[1].length);
-						console.log(p[1]);
-
-						if (filelist[i].def[p[1]] === "undefined" || !filelist[i].def[p[1]])
-							write = true;
-						else
-							write = false;
+						write = isfalse(filelist[i].def, p[1]);
 					}
 					else {
-						if (filelist[i].def[p[1]] !== "undefined" && filelist[i].def[p[1]])
-							write = true;
-						else
-							write = false;
+						write = istrue(filelist[i].def, p[1]);
 					}
 				}
 				else if (p[0] == "endif") {
@@ -220,6 +213,51 @@ if (watch) {
 	});
 }
 
+
+function isfalse(o, k) {
+	if (typeof o[k] === "undefined")
+		o = defglob;
+
+	if (typeof o[k] === "undefined" || !o[k])
+		return true;
+	
+	return false;
+}
+
+function istrue(o, k) {
+	if (typeof o[k] === "undefined")
+		o = defglob;
+		
+	if (typeof o[k] !== "undefined" && o[k])
+		return true;
+
+	return false;
+}
+
+function getvalue(o, k) {
+	if (typeof o[k] === "undefined")
+		o = defglob;
+		
+	if (typeof o[k] !== "undefined")
+		return o[k];
+		
+	return 	"";
+}
+
+function parsevalue(p) {
+	var v = "";
+	if (p.length > 2) {
+		for (var z = 2; z < p.length; z++) {
+			if (z != 2)
+				v += " ";
+			
+			v += p[z];
+		}
+	}
+
+	return v;
+}
+
 function getfilelist() {
 	allfiles = fs.readdirSync(source);
 	files = [];
@@ -243,18 +281,22 @@ function parse(s) {
 function replacements(str, data) {
 	var s = str;
 	var defreg = new RegExp(varstart + "\\w+" + varend, "g");
+	var all = {};
 
-	for (var i in data) {
+	for (var i in defglob)
+		all[i] = defglob[i];
+
+	for (var i in data)
+		all[i] = data[i];
+
+	for (var i in all) {
 		var reg = new RegExp(varstart + i + varend, "g");
 		
 		var rep = "";
-		if (typeof data[i] !== "undefined")
-			rep = data[i] || "";
-		else if (typeof defglob[i] !== "undefined")
-			rep = defglob[i] || "";
+		if (typeof all[i] !== "undefined")
+			rep = all[i];
 
-		if (rep)
-			s = s.replace(reg, data[i]);
+		s = s.replace(reg, rep);
 	}
 
 	// clean up any undefined variables
@@ -263,3 +305,42 @@ function replacements(str, data) {
 	return s;
 };
 
+function getfileasarray(f) {
+	var data = "";
+	try {
+		if (fs.accessSynch(f, fs.R_OK))
+			data = fs.readFileSync(f, 'utf8') || "";
+	}
+	catch(e) {
+		try {
+			f = source + f;
+			if (fs.accessSynch(f, fs.R_OK))
+				data = fs.readFileSync(f, 'utf8') || "";
+		}
+		catch(e) {
+			return null;
+		}
+	}
+	
+	verbose("paste".blue + " from " + f);
+	
+	return data.split("\n") || [];
+}		
+
+function warning(msg, f, l) {
+	console.log("Warning: ".yellow.bold + msg + getfilepos(f, l));
+}
+
+function error(msg, f, l) {
+	console.log("Error: ".red.bold + msg + getfilepos(f, l));
+	throw("Please fix and try again.");
+}
+
+function getfilepos(f, l) {
+	if (f)
+		if (l)
+			f += ":" + l;
+		return " in " + f;
+	
+	return "";
+}
