@@ -2,7 +2,8 @@
   "name": "sniplicity",
   "version": "0.1.0",
   "description": "Simple comment-based static HTML build system that lets you reuse code snippets with simple variables and conditional inclusion.",
-  "main": "sniplicity",
+  "main": "sniplicity.js",
+  "bin": "./sniplicity.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -18,8 +19,13 @@
     "parse",
     "watch"
   ],
-  "author": "Dave Balmer",
+  "author": {
+    "name": "Dave Balmer",
+    "email": "dbalmerjr@gmail.com",
+    "url": "http://blog.davebalmer.com"
+  },
   "license": "MIT",
+  "homepage": "https://github.com/davebalmer/sniplicity",
   "bugs": {
     "url": "https://github.com/davebalmer/sniplicity/issues"
   },
