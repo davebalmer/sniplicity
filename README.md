@@ -48,6 +48,7 @@ In the future, **sniplicity** should also accept single files to process to make
 | --out | -o | Output (destination) directory |
 | --watch | -w | Watch the `in` directory and your projectwhen one or more of them change.
 | --verbose | -v | Increase the **sniplicity** inner-monologue. |
+| --help | -h | Help! |
 
 # Commands
 
