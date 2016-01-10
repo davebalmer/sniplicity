@@ -1,5 +1,3 @@
-![Logo](sniplicity.png)
-
 # sniplicity
 
 Simple comment-based static HTML build system that lets you reuse code snippets with simple variables and conditional inclusion. Great for building static websites with less hassle.
@@ -9,6 +7,8 @@ Simple comment-based static HTML build system that lets you reuse code snippets 
 - re-use snippets of HTML throughout your project
 - use variables to replace values and control your build
 - include other files
+
+![Logo](sniplicity.png)
 
 ## Install
 
@@ -49,6 +49,8 @@ In the future, **sniplicity** should also accept single files to process to make
 | --watch | -w | Watch the `in` directory and your projectwhen one or more of them change.
 | --verbose | -v | Increase the **sniplicity** inner-monologue. |
 | --help | -h | Help! |
+
+![Logo](sniplicity.png)
 
 # Commands
 
