@@ -10,7 +10,7 @@ Simple comment-based static HTML build system that lets you reuse code snippets 
 - use variables to replace values and control your build
 - include other files
 
-# Install
+## Install
 
 NPM package (coming soon):
 
@@ -26,7 +26,7 @@ cd sniplicity
 sudo npm i
 ```
 
-# Run
+## Run
 
 ```sh
 node sniplicity.js -i in_dir -o out_dir
