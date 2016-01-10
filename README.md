@@ -161,21 +161,21 @@ be filters (eg. markdown, jade).
 
 This build tool scratches an itch I had for a static HTML builder that could move easily from single-page design prototype to multi-page production site with incremental and minimal automation effort. It is a conceptual reboot of a tool I designed and wrote back in my `perl` days, but simplified and more focused.
 
-# Templates (not exactly)
+## Templates (not exactly)
 
 **Sniplicity** is not a template engine so much as a tool that lets you "short-cut" the more redundant efforts of producing hand-coded HTML by using code snippets, simple variable substitution, and conditional code and file inclusion.
 
 That said, it's designed to be completely compatible with template tools like Jade, Backbone, Handlebars, LESS, Stylus and the like. It just allows you to automate your static HTML file building.
 
-# Roadmap
+## Roadmap
 
 The features and syntax for the first release are set, but more extensive error checking is a must. I also want to make the features that are there smarter and more flexible.
 
-# Contributing
+## Contributing
 
 Yes! Let me know of any errors or feature requests in the issue tracker. If you want to take a stab at making improvements, please do. Nothing special is required, just clone this repo and start coding. I'm open to all good pull requests.
 
 ## License
 
-Copyright (C) 2016 Dave Balmer, Jr. All Rights Reserved.
-MIT OSS License
+Copyright (C) 2016 Dave Balmer
+Using the MIT License (MIT)
