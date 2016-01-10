@@ -54,7 +54,7 @@ In the future, **sniplicity** should also accept single files to process to make
 |------|-------|---------|
 | --in | -i | Input (source) directory |
 | --out | -o | Output (destination) directory |
-| --watch | -w | Watch the `in` directory and your projectwhen one or more of them change.
+| --watch | -w | Watch the `in` directory and your project when one or more of them change.
 | --verbose | -v | Increase the **sniplicity** inner-monologue. |
 | --help | -h | Help! |
 
@@ -63,8 +63,8 @@ In the future, **sniplicity** should also accept single files to process to make
 All **sniplicity** commands are embedded in HTML comments, so they will not intefere with your favorite editor. Here are some examples:
 
 ```html
-<!-- define test -->
-<!-- define title Hello World -->
+<!-- set test -->
+<!-- set title Hello World -->
 
 <!-- if test -->
 	<h1>--title--</h1>
