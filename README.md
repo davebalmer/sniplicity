@@ -29,7 +29,7 @@ All **sniplicity** commands are embedded in HTML comments, so they will not inte
 <!-- end footer -->
 
 <!-- paste footer -->
-<!-- paste from disclaimer.html -->
+<!-- include disclaimer.html -->
 ```
 
 ## Marking snippets with `cut` and `copy`
@@ -81,15 +81,15 @@ With any variable (or default variable), you may include the value by using a si
 ```html
 <!-- set title Hello World! -->
 <title>My title is --title--</title>
-```html
+```
 
 ## Make global default variables with `global`
 
 You may set global default values for variables with `default`. If you use `set` with the same variable name in a given file, the default value will be overwritten inside that file and return to its default value for other files.
 
 ```html
-<!-- default development -->
-<!-- default title My Website -->
+<!-- global development -->
+<!-- global title My Website -->
 ```
 
 You may also use these defaults as a form of global variable which you can use anywhere in your project.
@@ -109,15 +109,14 @@ test is falsy!<br>
 <!-- endif -->
 ```
 
-## Insert other content files using `paste from`
+## Include other content files using `include`
 
 Right now, **sniplicity** copies the file contents verbatum. Later there may
 be filters (eg. markdown, jade).
 
 ```html
-<!-- paste from metatags.html -->
+<!-- include metatags.html -->
 ```
-
 
 ## License
 
