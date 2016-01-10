@@ -26,6 +26,8 @@ or locally
 npm install -s sniplicity
 ```
 
+[![npm version](https://badge.fury.io/js/sniplicity.svg)](https://badge.fury.io/js/sniplicity)
+
 ### From GitHub
 
 ```sh
