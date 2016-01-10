@@ -336,7 +336,7 @@ function getfileasarray(f) {
 		data = fs.readFileSync(f, 'utf8') || "";
 	}
 	catch(e) {
-		verbose("Can't find file", f.cyan.underline, process.cwd());
+//		verbose("Can't find file", f.cyan.underline, process.cwd());
 		try {
 			f = source + f;
 
@@ -344,7 +344,7 @@ function getfileasarray(f) {
 			data = fs.readFileSync(f, 'utf8') || "";
 		}
 		catch(e) {
-			verbose("Can't find file", f.cyan.underline, process.cwd());
+//			verbose("Can't find file", f.cyan.underline, process.cwd());
 			return null;
 		}
 	}
