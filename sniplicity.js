@@ -7,8 +7,18 @@ var path = require("path");
 var cli = require("commander");
 var colors = require("colors");
 
-console.log("\nsniplicity".green.bold + ".js".blue);
-console.log("http://github.com/davebalmer/sniplicity\n".gray.underline);
+cool("            _      ", " _  _       _             ");
+cool("           (_)     ", "| |(_)     (_)  _         ");
+cool("  ___ ____  _ ____ ", "| | _  ____ _ _| |_ _   _ ");
+cool(" /___)  _ \\| |  _ \\", "| || |/ ___) (_   _) | | |");
+cool("|___ | | | | | |_| ", "| || ( (___| | | |_| |_| |");
+cool("(___/|_| |_|_|  __/", " \\_)_|\\____)_|  \\__)\\__  |");
+cool("             |_|   ", "                   (____/ ");
+function cool(l, r) {
+	console.log(l.green + r.cyan)
+}
+
+console.log("   " + "http://github.com/davebalmer/sniplicity\n".gray.underline);
 
 cli
 	.version('0.1.0')
@@ -125,8 +135,6 @@ function build() {
 
 	verbose("Adding " + "snippet".green + "goodness...");
 	
-	console.log(defglob);
-
 	// insert snippets
 	for (var i = 0; i < filelist.length; i++) {
 		var d = filelist[i].data;
