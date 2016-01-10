@@ -10,7 +10,46 @@ Simple comment-based static HTML build system that lets you reuse code snippets 
 - use variables to replace values and control your build
 - include other files
 
-## Commands
+# Install
+
+NPM package (coming soon):
+
+```sh
+npm install sniplicity
+```
+
+From source:
+
+```sh
+git clone https://github.com/davebalmer/sniplicity.git sniplicity
+cd sniplicity
+sudo npm i
+```
+
+# Run
+
+```sh
+node sniplicity.js -i in_dir -o out_dir
+```
+
+Currently **sniplicity** only supports the concept of a source (in) directory and a destination (out) directory, which it uses to:
+
+1. read all `html`, `htm` and `txt` files found in the `in` directory
+2. process them
+3. save compiled files to the `out` directory
+
+In the future, **sniplicity** should also accept single files to process to make it compatible with other build tools.
+
+## Options
+
+| Flag | Short | Purpose |
+|------|-------|---------|
+| --in | -i | Input (source) directory |
+| --out | -o | Output (destination) directory |
+| --watch | -w | Watch the `in` directory and your projectwhen one or more of them change.
+| --verbose | -v | Increase the **sniplicity** inner-monologue. |
+
+# Commands
 
 All **sniplicity** commands are embedded in HTML comments, so they will not intefere with your favorite editor. Here are some examples:
 
