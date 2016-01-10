@@ -38,8 +38,10 @@ var output = fixdir(cli.out) || "./out/";
 var watch = cli.watch || false;
 var verbose_cli = cli.verbose || false;
 
+/*
 var source = "./in/";
 var output = "./out/";
+*/
 
 exports.build = function(i, o, w) {
 	source = fixdir(i) || "./";
