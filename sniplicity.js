@@ -23,7 +23,7 @@ function cool(l, r) {
 console.log("  " + "http://github.com/davebalmer/sniplicity\n".gray.underline);
 
 cli
-	.version('0.1.5')
+	.version('0.1.6')
 	.option('-i, --in [dir]', 'source directory')
 	.option('-o, --out [dir]', 'output directory for compiled files')
 	.option('-w, --watch', 'keep watching the input directory')
