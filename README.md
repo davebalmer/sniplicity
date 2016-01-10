@@ -36,6 +36,14 @@ npm i
 
 ## Run
 
+Globaly:
+
+```sh
+sniplicity -i in_dir -o out_dir
+```
+
+or locally:
+
 ```sh
 node sniplicity.js -i in_dir -o out_dir
 ```
@@ -54,7 +62,7 @@ In the future, **sniplicity** should also accept single files to process to make
 |------|-------|---------|
 | --in | -i | Input (source) directory |
 | --out | -o | Output (destination) directory |
-| --watch | -w | Watch the `in` directory and your project when one or more of them change.
+| **--watch** | **-w** | Watch the `in` directory and your project when one or more of them change.
 | --verbose | -v | Increase the **sniplicity** inner-monologue. |
 | --help | -h | Help! |
 
