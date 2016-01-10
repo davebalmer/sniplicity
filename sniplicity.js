@@ -15,7 +15,7 @@ cool("  ___ ____  _ ____ ", "| | _  ____ _ _| |_ _   _ ");
 cool(" /___)  _ \\| |  _ \\", "| || |/ ___) (_   _) | | |");
 cool("|___ | | | | | |_| ", "| || ( (___| | | |_| |_| |");
 cool("(___/|_| |_|_|  __/", " \\_)_|\\____)_|  \\__)\\__  |");
-cool("             |_|   ", "                   (____/ 0.1.4");
+cool("             |_|   ", "                   (____/ ");
 function cool(l, r) {
 	console.log(l.green + r.cyan)
 }
@@ -23,7 +23,7 @@ function cool(l, r) {
 console.log("  " + "http://github.com/davebalmer/sniplicity\n".gray.underline);
 
 cli
-	.version('0.1.0')
+	.version('0.1.5')
 	.option('-i, --in [dir]', 'source directory')
 	.option('-o, --out [dir]', 'output directory for compiled files')
 	.option('-w, --watch', 'keep watching the input directory')
@@ -348,7 +348,7 @@ function getfileasarray(f) {
 			return null;
 		}
 	}
-	
+
 	verbose("include ".green + f.cyan.underline);
 	
 	return data.split("\n") || [];
