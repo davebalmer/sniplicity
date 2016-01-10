@@ -12,13 +12,13 @@ Simple comment-based static HTML build system that lets you reuse code snippets 
 
 ## Install
 
-NPM package (coming soon):
+### From NPM
 
 ```sh
 npm install sniplicity
 ```
 
-From source:
+### From GitHub
 
 ```sh
 git clone https://github.com/davebalmer/sniplicity.git sniplicity
