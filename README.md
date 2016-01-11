@@ -1,5 +1,7 @@
 # sniplicity
 
+[![Join the chat at https://gitter.im/davebalmer/sniplicity](https://badges.gitter.im/davebalmer/sniplicity.svg)](https://gitter.im/davebalmer/sniplicity?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Simple comment-based static HTML build system that lets you reuse code snippets with simple variables and conditional inclusion. Great for building static websites with less hassle.
 
 - static page builder
