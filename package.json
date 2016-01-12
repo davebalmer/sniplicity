@@ -1,9 +1,9 @@
 {
   "name": "sniplicity",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Simple snippet-based static HTML build system that lets you reuse code snippets with simple variables and conditional inclusion.",
-  "main": "sniplicity.js",
-  "bin": "./sniplicity.js",
+  "main": "./lib/sniplicity.js",
+  "bin": "./bin/sniplicity",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
