@@ -24,16 +24,20 @@ console.log("  " + "http://github.com/davebalmer/sniplicity\n".gray.underline);
 
 cli
 	.version('0.1.7')
-	.option('-i, --in [dir]', 'source directory')
-	.option('-o, --out [dir]', 'output directory for compiled files')
+	.usage('-i in -o out -w')
+	.option('-i, --in <path>', 'source directory')
+	.option('-o, --out <path>', 'output directory for compiled files')
 	.option('-w, --watch', 'keep watching the input directory')
 	.option('-v, --verbose', 'extra console messages')
 	.parse(process.argv);
 
 var filelist = [];
 
+if (!cli.out)
+	cli.help();
+	
 var source = fixdir(cli.in) || "./";
-var output = fixdir(cli.out) || "./out/";
+var output = fixdir(cli.out);
 
 var watch = cli.watch || false;
 var verbose_cli = cli.verbose || false;
@@ -54,10 +58,12 @@ function fixdir(d) {
 }
 
 // glob
-var allfiles = fs.readdirSync(source);
+var allfiles = [];
 var files = [];
 var snippets = {};
 var defglob = {};
+
+var watchtimeout = 0;
 
 function verbose() {
 	if (verbose_cli)
@@ -66,13 +72,16 @@ function verbose() {
 
 function start() {
 	if (watch)
-		console.log("sniplicity".green.bold + ".js".blue + " is watching files in " + source);
+		console.log("snip".green.bold + "licity".cyan.bold + " is watching files in " + source.cyan.underline + "\n");
 
 	build();
 
 	if (watch) {
 		fs.watch(source, function (event, filename) {
-			build();
+			if (!watchtimeout) {
+				watchtimeout = setTimeout(function() { watchtimeout = 0 }, 200);
+				build();
+			}
 		});
 	}
 }
@@ -86,11 +95,19 @@ function build() {
 
 	for (var i = 0; i < files.length; i++) {
 		var f = source + files[i];
-		var fn = path.basename(f);
-
-		verbose("  " + fn);
+		var fn = "";
+				
+		var data = "";
+		try {
+			fn = path.basename(f);
+			verbose("  " + fn);
+			data = fs.readFileSync(f, 'utf8') || "";	
+		}
+		catch (e) {
+			warning("Cannot read file " + f.cyan.underline);
+			continue;
+		}
 		
-		var data = fs.readFileSync(f, 'utf8') || "";	
 		var list = data.split("\n");
 		
 		filelist.push({
@@ -228,11 +245,18 @@ function build() {
 		// replace variables
 		var fulltext = replacements(newfile.join("\n"), filelist[i].def);
 		
-		fs.writeFileSync(output + filelist[i].filename, fulltext, 'utf8');
-		verbose("  " + output + filelist[i].filename, 'utf8');
+		try {
+			verbose("  " + output + filelist[i].filename, 'utf8');
+			fs.writeFileSync(output + filelist[i].filename, fulltext, 'utf8');
+		}
+		catch (e) {
+			error("Cannot write file " + (output + filelist[i].filename).cyan.underline);
+		}
 	}
 
-	console.log("Made files: ".green.bold + source.underline + " -> ".blue + output.underline);
+	console.log("Compiled".green.bold + " from " + source.cyan.underline + " to " + output.cyan.underline);
+	if (!watch)
+		console.log("Success!".green.bold);
 }
 
 function isfalse(o, k) {
@@ -280,7 +304,13 @@ function parsevalue(p) {
 }
 
 function getfilelist() {
-	allfiles = fs.readdirSync(source);
+	try {
+		allfiles = fs.readdirSync(source);
+	}
+	catch (e) {
+		error("Cannot open source directory " + source.cyan.underline);
+	}
+
 	files = [];
 
 	for (var i = 0; i < allfiles.length; i++) {
@@ -330,19 +360,14 @@ function getfileasarray(f) {
 	var data = "";
 	
 	try {
-//		verbose("trying file", f.cyan.underline);
 		data = fs.readFileSync(f, 'utf8') || "";
 	}
 	catch(e) {
-//		verbose("Can't find file", f.cyan.underline, process.cwd());
 		try {
 			f = source + f;
-
-//			verbose("trying file", f.cyan.underline);
 			data = fs.readFileSync(f, 'utf8') || "";
 		}
 		catch(e) {
-//			verbose("Can't find file", f.cyan.underline, process.cwd());
 			return null;
 		}
 	}
@@ -357,15 +382,17 @@ function warning(msg, f, l) {
 }
 
 function error(msg, f, l) {
-	console.log("Error: ".red.bold + msg + getfilepos(f, l));
-	throw("Please fix and try again.");
+	console.log("\nError: ".red.bold + msg + getfilepos(f, l) + "\n");
+	cli.help();
 }
 
 function getfilepos(f, l) {
-	if (f)
+	if (f) {
 		if (l)
 			f += ":" + l;
+
 		return " in " + f;
+	}
 	
 	return "";
 }
