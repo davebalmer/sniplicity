@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 // configure variable start/end here for now
 var varstart = "\\-\\-";
 var varend = "\\-\\-";
@@ -20,11 +18,12 @@ function cool(l, r) {
 	console.log(l.green + r.cyan)
 }
 
-console.log("  " + "http://github.com/davebalmer/sniplicity\n".gray.underline);
+console.log("  " + "http://github.com/davebalmer/sniplicity".gray.underline);
 
 cli
-	.version('0.1.7')
-	.usage('-i in -o out -w')
+	.version('0.1.9')
+	.description('Build simple static websites using:'.white.bold + '\n\n  - snippets with ' + '<!-- copy x -->'.green + ' and ' + '<!-- paste x -->'.green + '\n  - variables using ' + '<!-- set y -->'.green + ' and ' + '<!-- global z -->'.green + '\n  - include files with ' + '<!-- include filename.html -->'.green + '\n\n  See README.md to get started.'.yellow.bold)
+	.usage('-i source_folder -o destination_folder -w')
 	.option('-i, --in <path>', 'source directory')
 	.option('-o, --out <path>', 'output directory for compiled files')
 	.option('-w, --watch', 'keep watching the input directory')
@@ -33,8 +32,10 @@ cli
 
 var filelist = [];
 
-if (!cli.out)
+if (!cli.out) {
+	
 	cli.help();
+}
 	
 var source = fixdir(cli.in) || "./";
 var output = fixdir(cli.out);
@@ -130,7 +131,6 @@ function build() {
 		var d = filelist[i].data;
 		var blockname = ""
 		var block = [];
-		var cutting = false;
 		
 		for (var j = 0; j < d.length; j++) {
 			var p = parse(d[j]);
@@ -147,8 +147,6 @@ function build() {
 					}
 				}
 				if (p[0] == "copy" || p[0] == "cut") {
-					cutting = (p[0] == "cut");
-						
 					blockname = p[1];
 					block = [];
 				}
@@ -164,12 +162,12 @@ function build() {
 					defglob[p[1]] = parsevalue(p) || true;
 				}
 				else {
-					if (blockname && !cutting)
+					if (blockname)
 						block.push(d[j]);				
 				}
 			}
 			else {
-				if (blockname && !cutting)
+				if (blockname)
 					block.push(d[j]);
 			}
 		}
@@ -216,6 +214,7 @@ function build() {
 		var d = filelist[i].data;
 		var write = true;
 		var newfile = [];
+		var cutting = false;
 		
 		for (var j = 0; j < d.length; j++) {
 			var p = parse(d[j]);
@@ -233,6 +232,13 @@ function build() {
 					}
 				}
 				else if (p[0] == "endif") {
+					write = true;
+				}
+				else if (p[0] == "cut") {
+					write = false;
+					cutting = true;
+				}
+				else if (cutting && p[0] == "end") {
 					write = true;
 				}
 			}
