@@ -1,0 +1,50 @@
+<!--
+	HTML Example
+--->
+
+<!-- global title Hello World -->
+
+<!-- copy title -->
+<title>--title--</title>
+<!-- end title -->
+
+<!-- include footer.html -->
+
+
+
+/*
+	JavaScript Examples
+*/
+
+// global test
+
+           ...
+
+// if test
+	// include a.js
+	// include b.js
+	// include c.js
+// else
+	// include all.js
+// endif
+
+
+
+/*
+	CSS Examples
+*/
+
+/* set paper #f5f5f5 */
+/* set text #333 */
+
+           ...
+
+body {
+	background: --paper--;
+	color: --text--;
+}
+
+/* include other.css */
+
+
+
